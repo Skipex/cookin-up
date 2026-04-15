@@ -1,34 +1,20 @@
 <script lang="ts">
 import SelecionarIngredientes from './SelecionarIngredientes.vue';
-import Tag from './Tag.vue';
+import SuaLista from './SuaLista.vue';
 
 export default {
     data() {
         return {
             ingredientes: ['Alho', 'Manteiga', 'Orégano', 'Abacate']
-        }
+        };
     },
-    components: { SelecionarIngredientes, Tag }
+    components: { SelecionarIngredientes, SuaLista }
 }
 </script>
 
 <template>
     <main class="conteudo-principal">
-        <section>
-            <span class="subtitulo-lg sua-lista-texto">
-                Sua lista:
-            </span>
-            <ul v-if="ingredientes.length" class="ingredientes-sua-lista">
-                <li v-for="ingrediente in ingredientes" :key="ingrediente">
-                    <Tag :texto="ingrediente" ativa />
-                </li>
-            </ul>
-
-            <p v-else class="paragrafo lista-vazia">
-                <img src="../assets/images/icones/lista-vazia.svg" alt="lista de pesquisa">
-                Sua lista está vazia, selecione ingredientes para iniciar.
-            </p>
-        </section>
+        <SuaLista :ingredientes="ingredientes" />
 
         <SelecionarIngredientes />
     </main>
