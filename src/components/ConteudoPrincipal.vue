@@ -40,6 +40,7 @@ export default {
                 @buscar-receitas="navegar('MostrarReceitas')"
             />
             <MostrarReceitas v-else-if="conteudo === 'MostrarReceitas'" 
+                :ingredientes="ingredientes"
                 @-selecionar-ingredientes="navegar('SelecionarIngredientes')"
             />
         </KeepAlive>

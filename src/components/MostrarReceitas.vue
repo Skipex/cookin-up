@@ -1,16 +1,25 @@
 <script lang="ts">
+import type { PropType } from 'vue';
 import { obterReceitas } from '@/http/index';
 import type IReceita from '@/interfaces/IReceita';
 import CardReceita from './CardReceita.vue';
 import BotaoPrincipal from './BotaoPrincipal.vue';
+import { itensLista1EstaoEmLista2 } from '@/operacoes/listas';
 export default{
+    props: {
+      ingredientes: { type: Array as PropType<string[]>, require: true }
+    },
     data(){
         return {
-            receitas: [] as IReceita[]
+            receitasEncontradas: [] as IReceita[]
         }
     },
     async created(){
-        this.receitas = await obterReceitas();
+        const receitas = await obterReceitas();
+        this.receitasEncontradas = receitas.filter((receita) => {
+          const possoFazerReceita = itensLista1EstaoEmLista2(receita.ingredientes, this.ingredientes);
+          return possoFazerReceita;
+        });
     },
     components: { CardReceita, BotaoPrincipal },
     emits: ['SelecionarIngredientes']
@@ -21,16 +30,16 @@ export default{
         <h1 class="cabecalho titulo-receitas">Receitas</h1>
 
         <p class="paragrafo-lg resultados-encontrados">
-            Resultados encontrados: {{ receitas.length }}
+            Resultados encontrados: {{ receitasEncontradas.length }}
         </p>
 
-        <div v-if="receitas.length" class="receitas-wrapper">
+        <div v-if="receitasEncontradas.length" class="receitas-wrapper">
             <p class="paragrafo-lg informacoes">
                 Veja as opções de receitas que encontramos com os ingredientes que você tem por aí!
             </p>
 
             <ul class="receitas">
-                <li v-for="receita in receitas" :key="receita.nome">
+                <li v-for="receita in receitasEncontradas" :key="receita.nome">
                     <CardReceita 
                         :receita="receita" 
                     />
