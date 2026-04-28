@@ -10,9 +10,9 @@ export default {
             categorias: [] as ICategoria[]
         }
     },
-    async created(){
-        this.categorias = await obterCategorias();
-    },
+        async created(){
+            this.categorias = await obterCategorias();
+        },
     components: { CardCategoria, BotaoPrincipal },
     emits: ['adicionarIngrediente', 'removerIngrediente', 'buscarReceitas']
 }
